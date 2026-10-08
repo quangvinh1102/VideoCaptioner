@@ -1,39 +1,39 @@
 <div align="center">
   <img src="./docs/images/logo.png" alt="VideoCaptioner Logo" width="100">
   <h1>VideoCaptioner</h1>
-  <p>基于大语言模型的视频字幕处理工具 — 语音识别、字幕优化、翻译、视频合成一站式处理</p>
+  <p>Công cụ xử lý phụ đề video dựa trên mô hình ngôn ngữ lớn (LLM) — Nhận dạng giọng nói, tối ưu hóa phụ đề, dịch thuật, lồng tiếng và ghép video tất cả trong một</p>
 
-  [在线文档](https://weifeng2333.github.io/VideoCaptioner/) · [CLI 使用](#cli-命令行) · [GUI 桌面版](#gui-桌面版) · [Claude Code Skill](#claude-code-skill)
+  [Tài liệu trực tuyến](https://weifeng2333.github.io/VideoCaptioner/) · [Sử dụng CLI](#cli-dong-lenh) · [Giao diện GUI Desktop](#gui-desktop) · [Claude Code Skill](#claude-code-skill)
 </div>
 
-## 安装
+## Cài đặt
 
 ```bash
-pip install videocaptioner          # 安装 CLI + GUI 桌面版
+pip install videocaptioner          # Cài đặt CLI + GUI Desktop
 ```
 
-免费功能（必剪语音识别、必应/谷歌翻译）**无需任何配置，安装即用**。
+Các tính năng miễn phí (nhận dạng giọng nói Bcut/BiJian, dịch Bing/Google) **không cần bất kỳ cấu hình nào, cài đặt là dùng được ngay**.
 
-## CLI 命令行
+## CLI (Dòng lệnh)
 
 ```bash
-# 语音转录（免费，无需 API Key）
+# Chuyển đổi giọng nói thành phụ đề (miễn phí, không cần API Key)
 videocaptioner transcribe video.mp4 --asr bijian
 
-# 字幕翻译（免费必应翻译）
+# Dịch phụ đề (sử dụng dịch Bing miễn phí)
 videocaptioner subtitle input.srt --translator bing --target-language en
 
-# 全流程：转录 → 优化 → 翻译 → 合成
+# Quy trình hoàn chỉnh: Nhận dạng → Tối ưu hóa → Dịch thuật → Ghép video
 videocaptioner process video.mp4 --target-language ja
 
-# 字幕烧录到视频
+# Gắn phụ đề trực tiếp vào video (Burn-in)
 videocaptioner synthesize video.mp4 -s subtitle.srt
 
-# 下载在线视频
+# Tải video trực tuyến (YouTube, Bilibili, ...)
 videocaptioner download "https://youtube.com/watch?v=xxx"
 ```
 
-需要 LLM 功能（字幕优化、大模型翻译）时，配置 API Key：
+Khi cần sử dụng các tính năng LLM (tối ưu hóa ngắt câu phụ đề, dịch bằng mô hình ngôn ngữ lớn), hãy cấu hình API Key:
 
 ```bash
 videocaptioner config set llm.api_key <your-key>
@@ -41,41 +41,41 @@ videocaptioner config set llm.api_base https://api.openai.com/v1
 videocaptioner config set llm.model gpt-4o-mini
 ```
 
-配置优先级：`命令行参数 > 环境变量 (VIDEOCAPTIONER_*) > 配置文件 > 默认值`。运行 `videocaptioner config show` 查看当前配置。
+Thứ tự ưu tiên cấu hình: `Tham số dòng lệnh > Biến môi trường (VIDEOCAPTIONER_*) > Tệp cấu hình > Giá trị mặc định`. Chạy `videocaptioner config show` để xem cấu hình hiện tại.
 
 <details>
-<summary>所有 CLI 命令一览</summary>
+<summary>Danh sách tất cả các lệnh CLI</summary>
 
-| 命令 | 说明 |
-|------|------|
-| `gui` | 打开桌面版。也可以直接运行 `videocaptioner-gui` |
-| `transcribe` | 语音转字幕。引擎：`faster-whisper`、`whisper-api`、`bijian`（免费）、`jianying`（免费）、`whisper-cpp` |
-| `subtitle` | 字幕优化/翻译。翻译服务：`llm`、`bing`（免费）、`google`（免费） |
-| `dub` | 根据字幕生成配音音轨或配音视频 |
-| `synthesize` | 字幕烧录到视频（软字幕/硬字幕） |
-| `process` | 全流程处理 |
-| `download` | 下载 YouTube、B站等平台视频 |
-| `config` | 配置管理（`show`、`set`、`get`、`path`、`init`） |
+| Lệnh | Mô tả |
+|------|-------|
+| `gui` | Mở phiên bản Desktop. Bạn cũng có thể chạy trực tiếp lệnh `videocaptioner-gui` |
+| `transcribe` | Chuyển đổi giọng nói thành phụ đề. Các engine hỗ trợ: `faster-whisper`, `whisper-api`, `bijian` (miễn phí), `jianying` (miễn phí), `whisper-cpp` |
+| `subtitle` | Tối ưu hóa / Dịch phụ đề. Các dịch vụ dịch: `llm`, `bing` (miễn phí), `google` (miễn phí) |
+| `dub` | Tạo âm thanh lồng tiếng hoặc video lồng tiếng theo phụ đề |
+| `synthesize` | Gắn phụ đề vào video (phụ đề mềm / phụ đề cứng hardsub) |
+| `process` | Xử lý toàn bộ quy trình tự động từ đầu đến cuối |
+| `download` | Tải video từ YouTube, Bilibili và nhiều nền tảng trực tuyến |
+| `config` | Quản lý cấu hình (`show`, `set`, `get`, `path`, `init`) |
 
-运行 `videocaptioner <命令> --help` 查看完整参数。完整 CLI 文档见 [docs/cli.md](docs/cli.md)。
+Chạy `videocaptioner <lệnh> --help` để xem đầy đủ các tham số. Tài liệu CLI chi tiết xem tại [docs/cli.md](docs/cli.md).
 
 </details>
 
-## GUI 桌面版
+## GUI Desktop
 
 ```bash
 pip install videocaptioner
-videocaptioner-gui                  # 显式打开桌面版
-videocaptioner gui                  # 等价命令
-videocaptioner                      # 无参数时也会打开桌面版
+videocaptioner-gui                  # Mở trực tiếp giao diện Desktop
+videocaptioner gui                  # Lệnh tương đương
+videocaptioner                      # Khi không truyền tham số cũng sẽ mở giao diện Desktop
 ```
 
 <details>
-<summary>其他安装方式：Windows 安装包 / macOS 一键脚本</summary>
+<summary>Các cách cài đặt khác: Bộ cài Windows / Script một dòng cho macOS</summary>
 
-**Windows**：从 [Release](https://github.com/WEIFENG2333/VideoCaptioner/releases) 下载安装包
+**Windows**: Tải bộ cài đặt từ [Releases](https://github.com/quangvinh1102/VideoCaptioner/releases)
 
-**macOS**：
+**macOS**:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/WEIFENG2333/VideoCaptioner/master/scripts/run.sh | bash
 ```
@@ -84,27 +84,67 @@ curl -fsSL https://raw.githubusercontent.com/WEIFENG2333/VideoCaptioner/master/s
 
 
 <!-- <div align="center">
-  <img src="https://h1.appinn.me/file/1731487405884_main.png" alt="界面预览" width="90%" style="border-radius: 5px;">
+  <img src="https://h1.appinn.me/file/1731487405884_main.png" alt="Xem trước giao diện" width="90%" style="border-radius: 5px;">
 </div> -->
 
-![页面预览](https://h1.appinn.me/file/1731487410170_preview1.png)
-![页面预览](https://h1.appinn.me/file/1731487410832_preview2.png)
+![Xem trước giao diện](https://h1.appinn.me/file/1731487410170_preview1.png)
+![Xem trước giao diện](https://h1.appinn.me/file/1731487410832_preview2.png)
 
-## LLM API 配置
+## Cấu hình LLM API
 
-LLM 仅用于字幕优化和大模型翻译，免费功能（必剪识别、必应翻译）无需配置。
+LLM chỉ được sử dụng cho việc tối ưu hóa ngắt câu phụ đề và dịch thuật bằng mô hình lớn. Các tính năng miễn phí (nhận dạng giọng nói BiJian, dịch Bing) hoàn toàn không cần cấu hình.
 
-支持所有 OpenAI 兼容接口的服务商：
+Hỗ trợ tất cả các nhà cung cấp tương thích với OpenAI API:
 
-| 服务商 | 官网 |
-|--------|------|
-| **VideoCaptioner 中转站** | [api.videocaptioner.cn](https://api.videocaptioner.cn) — 高并发，性价比高，支持 GPT/Claude/Gemini 等 |
-| SiliconCloud | [cloud.siliconflow.cn](https://cloud.siliconflow.cn/i/HF95kaoz) |
-| DeepSeek | [platform.deepseek.com](https://platform.deepseek.com) |
+| Nhà cung cấp | Trang chủ | Ghi chú |
+|--------------|-----------|---------|
+| **VideoCaptioner Relay** | [api.videocaptioner.cn](https://api.videocaptioner.cn) | Xử lý đồng thời cao, chi phí tối ưu, hỗ trợ GPT/Claude/Gemini... |
+| SiliconCloud | [cloud.siliconflow.cn](https://cloud.siliconflow.cn/i/HF95kaoz) | Nền tảng SiliconFlow |
+| DeepSeek | [platform.deepseek.com](https://platform.deepseek.com) | Nền tảng DeepSeek |
 
-在软件设置或 CLI 中填入 API Base URL 和 API Key 即可。[详细配置教程](https://weifeng2333.github.io/VideoCaptioner/config/llm)
+Bạn chỉ cần nhập API Base URL và API Key trong phần Cài đặt phần mềm hoặc qua CLI. [Xem hướng dẫn cấu hình chi tiết](https://weifeng2333.github.io/VideoCaptioner/config/llm)
 
 ## Claude Code Skill
+
+Dự án này cung cấp [Claude Code Skill](https://code.claude.com/docs/en/skills.md), cho phép trợ lý AI có thể gọi trực tiếp VideoCaptioner để xử lý video.
+
+Cài đặt vào Claude Code:
+
+```bash
+mkdir -p ~/.claude/skills/videocaptioner
+cp skills/SKILL.md ~/.claude/skills/videocaptioner/SKILL.md
+```
+
+Sau đó trong Claude Code chỉ cần gõ `/videocaptioner transcribe video.mp4 --asr bijian` là có thể sử dụng ngay.
+
+## Cơ chế hoạt động
+
+```
+Đầu vào âm thanh/video → Nhận dạng giọng nói (ASR) → Ngắt câu phụ đề → Tối ưu hóa LLM → Dịch thuật → Ghép / Xuất video
+```
+
+- Dấu thời gian cấp từ (Word-level timestamps) + Phát hiện hoạt động giọng nói (VAD), độ chính xác nhận dạng cao
+- Hiểu ngữ nghĩa bằng LLM để ngắt câu, giúp trải nghiệm đọc phụ đề tự nhiên và mạch lạc
+- Dịch thuật hiểu ngữ cảnh sâu, hỗ trợ cơ chế phản tư tối ưu (reflection)
+- Xử lý hàng loạt đa luồng đồng thời, tối ưu hiệu suất
+
+## Phát triển & Đóng góp mã nguồn
+
+```bash
+git clone https://github.com/quangvinh1102/VideoCaptioner.git
+cd VideoCaptioner
+uv sync && uv run videocaptioner     # Chạy giao diện GUI
+uv run videocaptioner --help          # Xem trợ giúp CLI
+uv run pyright                        # Kiểm tra kiểu dữ liệu (Type check)
+uv run pytest tests/test_cli/ -q      # Chạy bộ kiểm thử (Tests)
+```
+
+## Giấy phép
+
+[GPL-3.0](LICENSE)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=quangvinh1102/VideoCaptioner&type=Date)](https://star-history.com/#quangvinh1102/VideoCaptioner&Date)
+
 
 本项目提供了 [Claude Code Skill](https://code.claude.com/docs/en/skills.md)，让 AI 编程助手可以直接调用 VideoCaptioner 处理视频。
 
